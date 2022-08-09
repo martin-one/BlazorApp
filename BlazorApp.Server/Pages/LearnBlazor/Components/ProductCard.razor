@@ -1,0 +1,42 @@
+﻿<div class="col-xs-12 col-md-6 col-xl-4 col-xxl-3">
+    <div class="card mt-2" @onclick="()=>OnChangeSelectedProduct(Product)">
+        <div class="card-body">
+            <h5 class="pb-2">Product #@Product.Id</h5>
+            <input type="checkbox" @onchange="OnFavoriteSelection" /> Add to Favorites <br /><br />
+            <div>Name: @Product.Name</div>
+            <div>
+                Show Properties:
+                <input type="checkbox" @bind="@(Product.IsActive)" />
+            </div>
+            @if (@Product.IsActive)
+            {
+                @foreach (var prop in Product.Properties)
+                {
+                    <div class="mt-1">@(prop.Key): @prop.Value</div>
+                }
+            }
+            <EditDeleteButtons IsActive="@Product.IsActive" />
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Demo_Product Product { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> FavoriteCountUpdate { get; set; }
+
+    [Parameter]
+    public EventCallback<Demo_Product> ChangeSelectedProduct { get; set; }
+
+    private async Task OnFavoriteSelection(ChangeEventArgs e)
+    {
+        await FavoriteCountUpdate.InvokeAsync((bool)e.Value);
+    }
+
+    private async Task OnChangeSelectedProduct(Demo_Product product)
+    {
+        await ChangeSelectedProduct.InvokeAsync(product);
+    }
+}

@@ -1,68 +1,90 @@
 ﻿@page "/learnblazor/demoproduct"
 
 <h3 class="text-primary">DemoProduct</h3>
-
+<p>Favorites Total: @FavoriteCount</p>
+<p class="">Current Selection: @SelectedProduct.Name</p>
 <div class="row">
-    @foreach (var product in products)
+    @foreach (var product in Products)
     {
-        <div class="col-xs-12 col-md-6 col-xl-4 col-xxl-2">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="pb-2">Product #@product.Id</h5>
-                    <div>Name: @product.Name</div>
-                    <div>
-                        Show Properties:
-                        <input type="checkbox" @bind="@(product.IsActive)" />
-                    </div>
-                    @if (@product.IsActive)
-                    {
-                        @foreach (var prop in product.Properties)
-                        {
-                            <div class="mt-1">@(prop.Key): @prop.Value</div>
-                        }
-                    }
-                </div>
-                <div class="card-footer">
-                    <button type="button" class="btn btn-success" style="width:100px">Edit</button>
-                    <button type="button" class="btn btn-danger" style="width:100px">Delete</button>
-                </div>
-            </div>
-        </div>
+        <ProductCard Product="@product" FavoriteCountUpdate="@FavoriteCountUpdate" ChangeSelectedProduct="@ChangeSelectedProduct" />
     }
 </div>
 
 @code {
     private string SelectedProp = "";
-    List<Demo_Product> products = new();
+    private int FavoriteCount { get; set; } = 0;
+    private Demo_Product SelectedProduct = new();
+    List<Demo_Product> Products = new();
+
+    private void FavoriteCountUpdate(bool isSelected)
+    {
+        if (isSelected)
+            FavoriteCount++;
+        else
+            FavoriteCount--;
+    }
+
+    private void ChangeSelectedProduct(Demo_Product product)
+    {
+        SelectedProduct = product;
+    }
 
     protected override void OnInitialized()
     {
-        products.Add(new()
+        Products.Add(new()
             {
                 Id = 1,
                 Name = "Midnight Blaze",
                 Price = 12.99,
                 IsActive = false,
                 Properties = new()
-                {
-                    new Demo_ProductProp { Id = 1, Key = "Flavor", Value = "Rose"},
-                    new Demo_ProductProp { Id = 2, Key = "Size", Value = "20oz"},
-                    new Demo_ProductProp { Id = 3, Key = "Color", Value="Purple" }
-                }
+            {
+                new Demo_ProductProp { Id = 1, Key = "Flavor", Value = "Rose"},
+                new Demo_ProductProp { Id = 2, Key = "Size", Value = "20oz"},
+                new Demo_ProductProp { Id = 3, Key = "Color", Value="Purple" }
+            }
             });
 
-        products.Add(new()
+        Products.Add(new()
             {
                 Id = 2,
                 Name = "Blossom Lily",
                 Price = 19.99,
                 IsActive = true,
                 Properties = new()
-                {
-                    new Demo_ProductProp { Id = 1, Key = "Flavor", Value = "Lily" },
-                    new Demo_ProductProp { Id = 2, Key = "Size", Value = "18oz" },
-                    new Demo_ProductProp {Id = 3,Key = "Color",Value = "White"}
-                }
+            {
+                new Demo_ProductProp { Id = 1, Key = "Flavor", Value = "Lily" },
+                new Demo_ProductProp { Id = 2, Key = "Size", Value = "18oz" },
+                new Demo_ProductProp {Id = 3,Key = "Color",Value = "White"}
+            }
+            });
+
+        Products.Add(new()
+            {
+                Id = 3,
+                Name = "Midnight C",
+                Price = 25.00,
+                IsActive = false,
+                Properties = new()
+            {
+                new Demo_ProductProp { Id = 1, Key = "Flavor", Value = "Rose"},
+                new Demo_ProductProp { Id = 2, Key = "Size", Value = "20oz"},
+                new Demo_ProductProp { Id = 3, Key = "Color", Value="Purple" }
+            }
+            });
+
+        Products.Add(new()
+            {
+                Id = 4,
+                Name = "Blossom C",
+                Price = 39.99,
+                IsActive = true,
+                Properties = new()
+            {
+                new Demo_ProductProp { Id = 1, Key = "Flavor", Value = "Lily" },
+                new Demo_ProductProp { Id = 2, Key = "Size", Value = "18oz" },
+                new Demo_ProductProp {Id = 3,Key = "Color",Value = "White"}
+            }
             });
     }
 }
