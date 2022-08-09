@@ -10,17 +10,10 @@
     @MessageText
 </div>
 
-<AnotherChildComponent InputAttributes="InputAttributesFromParent" />
+<AnotherChildComponent placeholder="Placeholder From Parent" maxlength="5" />
 
 @code {
     public string MessageText = "";
-
-    public Dictionary<string, object> InputAttributesFromParent { get; set; } = new Dictionary<string, object>
-    {
-        {"required","required"},
-        {"placeholder","Placeholder From Parent"},
-        {"maxlength",5}
-    };
 
     private void ShowMessage()
     {
