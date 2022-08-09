@@ -1,0 +1,15 @@
+﻿<div class="mt-3">
+    <hr />
+    <h5>Another Child Component</h5>
+    <input id="text-name" type="text" @attributes="InputAttributes" />
+</div>
+
+@code {
+    [Parameter]
+    public Dictionary<string, object> InputAttributes { get; set; } = new Dictionary<string, object>
+    {
+        {"required","required"},
+        {"placeholder","Initial Text"},
+        {"maxlength",10}
+    };
+}

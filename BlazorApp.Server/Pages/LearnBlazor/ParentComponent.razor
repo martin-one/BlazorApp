@@ -1,0 +1,32 @@
+﻿@page "/learnblazor/parentcomponent"
+
+<h3>Parent/Child Relation</h3>
+
+<ChildComponent Title="This is a message from the parent!" OnButtonClick="@ShowMessage">
+    Render fragment from parent!
+</ChildComponent>
+
+<div>
+    @MessageText
+</div>
+
+<AnotherChildComponent InputAttributes="InputAttributesFromParent" />
+
+@code {
+    public string MessageText = "";
+
+    public Dictionary<string, object> InputAttributesFromParent { get; set; } = new Dictionary<string, object>
+    {
+        {"required","required"},
+        {"placeholder","Placeholder From Parent"},
+        {"maxlength",5}
+    };
+
+    private void ShowMessage()
+    {
+        if (string.IsNullOrWhiteSpace(MessageText))
+            MessageText = "Button from Child Component";
+        else
+            MessageText = "";
+    }
+}
