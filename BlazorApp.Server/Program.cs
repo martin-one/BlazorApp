@@ -26,7 +26,7 @@ public class Program
         }
         else
         {
-            //app.UseDeveloperExceptionPage();
+            app.UseDeveloperExceptionPage();
         }
 
         app.UseHttpsRedirection();
