@@ -1,59 +1,16 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">BlazorApp.Server</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-</div>
-
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="learnblazor/bindprop">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Bind Properties
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="learnblazor/demoproduct">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Demo Product
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="learnblazor/parentcomponent">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Parent/Child Relation
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="learnblazor/routing/123/456">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Learn Routing
-            </NavLink>
-        </div>
-    </nav>
-</div>
+﻿<MudNavMenu Class="mt-3">
+    <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
+    <MudNavLink Href="counter" Icon="@Icons.Material.Filled.Add">Counter</MudNavLink>
+    <MudNavLink Href="fetchdata" Icon="@Icons.Material.Filled.List">Fetch data</MudNavLink>
+    <MudNavGroup Icon="@Icons.Filled.LibraryBooks" Title="LearnBlazor" Expanded="true">
+        <MudNavLink Icon="@Icons.Filled.Link" Href="learnblazor/bindprop">Bind Properties</MudNavLink>
+        <MudNavLink Icon="@Icons.Filled.ShoppingCartCheckout" Href="learnblazor/demoproduct">Demo Product</MudNavLink>
+        <MudNavLink Icon="@Icons.Filled.ChildFriendly" Href="learnblazor/parentcomponent">Parent/Child Relation</MudNavLink>
+        <MudNavLink Icon="@Icons.Filled.Route" Href="learnblazor/routing/123/456">Learn Routing</MudNavLink>
+        <MudNavLink Icon="@Icons.Filled.Code" Href="learnblazor/blazorjs">Blazor JS</MudNavLink>
+    </MudNavGroup>
+</MudNavMenu>
 
 @code {
-    private bool collapseNavMenu = true;
 
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
 }

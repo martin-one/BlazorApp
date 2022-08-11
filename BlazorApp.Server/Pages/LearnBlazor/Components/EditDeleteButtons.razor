@@ -1,8 +1,8 @@
 ﻿@if (IsActive)
 {
     <div class="pt-3">
-        <button type="button" class="btn btn-success" style="width:100px">Edit</button>
-        <button type="button" class="btn btn-danger" style="width:100px">Delete</button>
+        <MudButton Variant="Variant.Filled" Style="width:100px" Class="mr-4" Color="Color.Success" EndIcon="@Icons.Filled.Edit">Edit</MudButton>
+        <MudButton Variant="Variant.Filled" Style="width:100px" Color="Color.Error" EndIcon="@Icons.Filled.Delete">Delete</MudButton>
     </div>
 }
 

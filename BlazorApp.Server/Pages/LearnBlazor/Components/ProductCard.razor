@@ -1,24 +1,23 @@
-﻿<div class="col-xs-12 col-md-6 col-xl-4 col-xxl-3">
-    <div class="card mt-2" @onclick="()=>OnChangeSelectedProduct(Product)">
-        <div class="card-body">
-            <h5 class="pb-2">Product #@Product.Id</h5>
-            <input type="checkbox" @onchange="OnFavoriteSelection" /> Add to Favorites <br /><br />
-            <div>Name: @Product.Name</div>
-            <div>
-                Show Properties:
-                <input type="checkbox" @bind="@(Product.IsActive)" />
-            </div>
-            @if (@Product.IsActive)
-            {
-                @foreach (var prop in Product.Properties)
+﻿<MudItem xs="12" sm="6" md="4" lg="3" xl="2">
+    <MudCard Style="height:100%" @onclick="()=>OnChangeSelectedProduct(Product)">
+        <MudCardContent>
+            <MudText Typo="Typo.h6">Product #@Product.Id</MudText>
+            <MudText Typo="Typo.body1" GutterBottom>Name: @Product.Name</MudText>
+            <MudCheckBox Color="Color.Primary" Label="Add to Favorites" CheckedChanged="FavoriteCountUpdate" />
+            <MudCheckBox Color="Color.Primary" Label="Show Properties" @bind-Checked="@Product.IsActive" />
+            <MudText Typo="Typo.body1">
+                @if (@Product.IsActive)
                 {
-                    <div class="mt-1">@(prop.Key): @prop.Value</div>
+                    @foreach (var prop in Product.Properties)
+                    {
+                        <p class="mt-1">@(prop.Key): @prop.Value</p>
+                    }
                 }
-            }
+            </MudText>
             <EditDeleteButtons IsActive="@Product.IsActive" />
-        </div>
-    </div>
-</div>
+        </MudCardContent>
+    </MudCard>
+</MudItem>
 
 @code {
     [Parameter]
@@ -29,11 +28,6 @@
 
     [Parameter]
     public EventCallback<Demo_Product> ChangeSelectedProduct { get; set; }
-
-    private async Task OnFavoriteSelection(ChangeEventArgs e)
-    {
-        await FavoriteCountUpdate.InvokeAsync((bool)e.Value);
-    }
 
     private async Task OnChangeSelectedProduct(Demo_Product product)
     {

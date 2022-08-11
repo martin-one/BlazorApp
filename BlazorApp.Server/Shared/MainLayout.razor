@@ -1,19 +1,38 @@
 ﻿@inherits LayoutComponentBase
 
+<MudThemeProvider @bind-IsDarkMode="@_isDarkMode" Theme="new MudTheme()" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
 <PageTitle>BlazorApp.Server</PageTitle>
-
-<div class="page">
-    <div class="sidebar">
+<MudLayout>
+    <MudAppBar Elevation="3">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <MudText Typo="Typo.h5" Class="ml-3">BlazorApp.Server</MudText>
+        <MudSpacer />
+        <MudTooltip Text="@(_isDarkMode?"Switch to Light Mode":"Switch to Dark Mode")">
+            <MudToggleIconButton @bind-Toggled="@_isDarkMode" Icon="@Icons.Filled.LightMode" Color="Color.Inherit" ToggledIcon="@Icons.Filled.LightMode" ToggledColor="Color.Inherit" />
+        </MudTooltip>
+        <MudTooltip Text="Microsoft Docs">
+            <MudIconButton Icon="@Icons.Custom.Brands.Microsoft" Color="Color.Inherit" Edge="Edge.End" Title="Microsoft Docs" Link="https://docs.microsoft.com/aspnet/" Target="_blank" />
+        </MudTooltip>
+    </MudAppBar>
+    <MudDrawer @bind-Open="@_drawerOpen" Elevation="3" ClipMode="DrawerClipMode.Always">
         <NavMenu />
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
+    </MudDrawer>
+    <MudMainContent>
+        <MudContainer Fixed Class="pt-3">
             @Body
-        </article>
-    </main>
-</div>
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    bool _isDarkMode = true;
+    bool _drawerOpen = true;
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+}

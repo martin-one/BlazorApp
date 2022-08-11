@@ -1,76 +1,71 @@
 ﻿@page "/learnblazor/bindprop"
 
-<h2 class="text-success">Individual Product</h2>
-<div class="row">
-    <div class="col-6 border p-3">
-        <h4 class="text-primary">Product Playground</h4> <hr />
-        <div class="m-1">
-            Active:
-            <input type="checkbox" @bind="@product.IsActive" /> <br />
-        </div>
-        <div class="m-1">
-            <input type="number" @bind-value="@product.Price" @bind-value:event="oninput" />
-        </div>
-        <div class="m-1">
-            Product Properties:
-            <select @bind="@SelectedProp">
-                <option>Select...</option>
+<MudText Typo="Typo.h4" Color="Color.Success">Individual Product</MudText>
+<MudGrid>
+    <MudItem xs="12" md="6" Class="pa-8">
+        <MudPaper Class="pa-4" Height="100%">
+            <MudText Typo="Typo.h5" Color="Color.Primary" GutterBottom>Product Playground</MudText>
+            <MudCheckBox Color="Color.Primary" Label="Active" @bind-Checked="@product.IsActive" />
+            <MudNumericField Immediate="true" Label="Price" @bind-Value="@product.Price" />
+            <MudSelect Label="Product Properties" Class="pt-2" @bind-Value="@SelectedProp">
                 @foreach (var prop in product.Properties)
                 {
-                    <option value="@prop.Key">@prop.Key</option>
+                    <MudSelectItem Value="@prop.Key">@prop.Key</MudSelectItem>
                 }
-            </select>
-        </div>
-    </div>
-    <div class="col-6 border p-3">
-        <h4 class="text-primary">Product Summary</h4> <hr />
-        Name: @product.Name <br />
-        Active: @product.IsActive <br />
-        Price: @product.Price <br />
-        This product is: @(product.IsActive?"Active":"Inactive") <br />
-        Property Selected: @SelectedProp
-        @if (!string.IsNullOrWhiteSpace(SelectedProp))
-        {
-            <p>Property Value: @product.Properties.FirstOrDefault(u=>u.Key==SelectedProp).Value</p>
-        }
-        <br /> <br />
-    </div>
-</div>
-<br />
-
-<h2 class="text-success">Products Table</h2>
-<div class="row">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Price</th>
-                <th scope="col">IsActive</th>
-            </tr>
-        </thead>
-        <tbody>
-            @for (var i = 0; i < products.Count; i++)
-            {
-                int index = i;
+            </MudSelect>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12" md="6" Class="pa-8">
+        <MudPaper Class="pa-4" Height="100%">
+            <MudText Typo="Typo.h5" Color="Color.Primary" GutterBottom="true">Product Summary</MudText>
+            <MudText Typo="Typo.body1">
+                Name: @product.Name <br />
+                Active: @product.IsActive <br />
+                Price: @product.Price <br />
+                This product is: @(product.IsActive ? "Active" : "Inactive") <br />
+                Property Selected: @SelectedProp
+                @if (!string.IsNullOrWhiteSpace(SelectedProp))
+                {
+                    <p>Property Value: @product.Properties.FirstOrDefault(u=>u.Key==SelectedProp).Value</p>
+                }
+            </MudText>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12">
+        <MudText Typo="Typo.h4" Color="Color.Success">Products Table</MudText>
+        <MudSimpleTable Hover="true">
+            <thead>
                 <tr>
-                    <th scope="row">@(i+1)</th>
-                    <th>
-                        <input type="text" @bind="@(products[index].Name)" @bind:event="oninput" />
-                    </th>
-                    <th><input type="text" @bind="@(products[index].Price)" @bind:event="oninput" /></th>
-                    <th><input type="checkbox" @bind="@(products[index].IsActive)" /></th>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">IsActive</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-    <hr />
-    <h3 class="text-primary">Products Summary</h3>
-    @foreach (var item in products)
-    {
-        <p>@item.Name - @item.Price - @(item.IsActive?"Active":"Inactive")</p>
-    }
-</div>
+            </thead>
+            <tbody>
+                @for (var i = 0; i < products.Count; i++)
+                {
+                    int index = i;
+                    <tr>
+                        <th scope="row">@(i + 1)</th>
+                        <th><MudTextField Immediate="true" @bind-Value="@(products[index].Name)" /></th>
+                        <th><MudTextField Immediate="true" @bind-Value="@(products[index].Price)" /></th>
+                        <th><MudCheckBox Color="Color.Primary" @bind-Checked="@(products[index].IsActive)" /></th>
+                    </tr>
+                }
+            </tbody>
+        </MudSimpleTable>
+        <br />
+        <MudText Typo="Typo.h5" Color="Color.Primary" Class="mt-3">Products Summary</MudText>
+        @foreach (var item in products)
+        {
+            <MudText Typo="Typo.body1">
+                @item.Name - @item.Price - @(item.IsActive ? "Active" : "Inactive")
+            </MudText>
+        }
+    </MudItem>
+</MudGrid>
+<br />
 
 @code {
     private string SelectedProp = "";

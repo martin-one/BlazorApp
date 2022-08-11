@@ -1,0 +1,48 @@
+﻿@page "/learnblazor/blazorjs"
+
+@inject IJSRuntime _JsRuntime;
+
+<MudText Typo="Typo.h4">BlazorJS</MudText>
+
+<MudGrid>
+    <MudItem xs="12">
+        <MudText Typo="Typo.body1">
+            @if (ConfirmResult)
+            {
+                <div>Confirmation has been made!</div>
+            }
+            else
+            {
+                <p>Confirmation Pending!</p>
+            }
+        </MudText>
+        <div class="mt-4">
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="ToastrSuccess">Toastr Success</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="TestConfirmBox">Test Confirm Box</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="ToastrError">Toastr Error</MudButton>
+        </div>
+    </MudItem>
+</MudGrid>
+
+
+
+
+@code {
+    private string ConfirmMessage = "Are you sure you want to click?";
+    private bool ConfirmResult { get; set; }
+
+    private async Task TestConfirmBox()
+    {
+        ConfirmResult = await _JsRuntime.InvokeAsync<bool>("confirm", ConfirmMessage);
+    }
+
+    private async Task ToastrSuccess()
+    {
+        await _JsRuntime.InvokeVoidAsync("ShowToastr", "success", "Success!");
+    }
+
+    private async Task ToastrError()
+    {
+        await _JsRuntime.InvokeVoidAsync("ShowToastr", "error", "Error!");
+    }
+}

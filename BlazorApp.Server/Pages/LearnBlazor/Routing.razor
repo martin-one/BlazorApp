@@ -5,19 +5,20 @@
 
 @inject NavigationManager _NavigationManager
 
-<h3 class="text-primary">Routing</h3>
-<h5>Parameter1: @Parameter1 </h5>
-<h5>Parameter2: @Parameter2 </h5>
+<MudText Typo="Typo.h4" Color="Color.Primary" GutterBottom>Routing</MudText>
+<MudText Typo="Typo.body1" GutterBottom>
+    Parameter1: @Parameter1 <br />
+    Parameter2: @Parameter2
+</MudText>
+<MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mt-4 mr-4" @onclick="NavigateToRouting">Route Parameters</MudButton>
 
-<br />
-<hr />
-@*<a href="routing?Param1=Blazor&Param2=App" class="btn btn-primary mt-3">Query Parameter</a>*@
-<button @onclick="NavigateToQueryParam" class="btn btn-primary mt-3">Query Parameter</button>
-<br />
-<button class="btn btn-success mt-3" @onclick="LoadParameters">Load Parameters</button>
-<h3>Query Params</h3>
-<h5>Param1: @Param1 </h5>
-<h5>Param2: @Param2</h5>
+<MudText Typo="Typo.h4" Color="Color.Primary" GutterBottom Class="mt-8">Query Params</MudText>
+<MudText Typo="Typo.body1" GutterBottom>
+    Param1: @Param1 <br />
+    Param2: @Param2
+</MudText>
+<MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mt-4 mr-4" @onclick="NavigateToQueryParam">Query Parameters</MudButton>
+<MudButton Variant="Variant.Filled" Color="Color.Success" Class="mt-4" @onclick="LoadParameters">Load Parameters</MudButton>
 
 @code {
     [Parameter]
@@ -33,12 +34,20 @@
     private void LoadParameters()
     {
         var absoluteUri = new Uri(_NavigationManager.Uri);
+        Console.WriteLine(absoluteUri);
         var queryParams = System.Web.HttpUtility.ParseQueryString(absoluteUri.Query);
+        Console.WriteLine(queryParams);
         Param1 = queryParams["Param1"];
         Param2 = queryParams["Param2"];
     }
 
-    private void NavigateToQueryParam(){
-        _NavigationManager.NavigateTo("routing?Param1=Blazor&Param2=App");
+    private void NavigateToQueryParam()
+    {
+        _NavigationManager.NavigateTo("routing?Param1=Blazor&Param2=App"); 
+    }
+
+    private void NavigateToRouting()
+    {
+        _NavigationManager.NavigateTo("learnblazor/routing/123/456");
     }
 }
