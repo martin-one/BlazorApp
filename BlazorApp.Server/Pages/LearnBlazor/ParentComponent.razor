@@ -6,7 +6,7 @@
 
         <CascadingValue Value="@MessageForGrandChild" Name="message">
             <CascadingValue Value="@LuckyNumber" Name="luckyNumber">
-                <ChildComponent Title="This is a message from the parent!" OnButtonClick="@ShowMessage">
+                <ChildComponent Title="This is a message from the parent!" OnButtonClick="@ShowMessage" @ref="ChildComp">
                     Render fragment from parent!
                 </ChildComponent>
             </CascadingValue>
@@ -17,10 +17,14 @@
         </MudText>
 
         <AnotherChildComponent placeholder="Placeholder From Parent" maxlength="5" />
+
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mt-8" @onclick="()=>ChildComp.ToastrSuccess()" >Show Alert from Child</MudButton>
     </MudItem>
 </MudGrid>
 
 @code {
+    private ChildComponent ChildComp;
+
     public string MessageText = "";
     public string MessageForGrandChild = "This message is from your parent (ParentComponent)";
     public string LuckyNumber = "7";

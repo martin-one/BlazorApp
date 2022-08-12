@@ -1,4 +1,6 @@
-﻿<MudAlert Severity="Severity.Info" Class="mt-4">@Title</MudAlert>
+﻿@inject IJSRuntime _JsRuntime;
+
+<MudAlert Severity="Severity.Info" Class="mt-4">@Title</MudAlert>
 <MudAlert Severity="Severity.Success" Class="mt-4">
     @if (ChildContent != null)
     {
@@ -22,4 +24,9 @@
 
     [Parameter]
     public EventCallback OnButtonClick { get; set; }
+
+    public async Task ToastrSuccess()
+    {
+        await _JsRuntime.ShowToastr("This is a sucess message", "success");
+    }
 }
