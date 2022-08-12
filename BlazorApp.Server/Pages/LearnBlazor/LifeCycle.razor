@@ -1,0 +1,80 @@
+﻿@page "/learnblazor/lifecycle"
+@using System.Threading
+
+<MudText Typo="Typo.h3" GutterBottom>LifeCycle</MudText>
+<MudText Class="mb-4">Current count: @currentCount</MudText>
+<MudButton Color="Color.Primary" Variant="Variant.Filled" @onclick="IncrementCount">Click me</MudButton> <br /> <br />
+@Count <MudButton Color="Color.Primary" Variant="Variant.Filled" @onclick="StartCountDown">CountDown</MudButton>
+
+<LifeCycleChild CountValue="@currentCount" />
+
+@foreach (var item in EventType)
+{
+    <MudText Typo="Typo.body1" Class="my-4">@item</MudText>
+}
+
+@code {
+    private int currentCount = 0;
+    List<string> EventType = new();
+    private int Count = 5;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+
+    protected override void OnInitialized()
+    {
+        EventType.Add("OnInitialized called");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        EventType.Add("OnInitializedAsync called");
+    }
+
+    protected override void OnParametersSet()
+    {
+        EventType.Add("OnParametersSet called");
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        EventType.Add("OnParametersSetAsync called");
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+            currentCount = 111;
+        else
+            currentCount = 999;
+
+        EventType.Add("OnAfterRender called");
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        EventType.Add("OnAfterRenderAsync called");
+    }
+
+    protected override bool ShouldRender()
+    {
+        EventType.Add("ShouldRender called");
+        return true;
+    }
+
+    void StartCountDown()
+    {
+        var timer = new Timer(TimeCallBack, null, 1000, 1000);
+    }
+
+    void TimeCallBack(object state)
+    {
+        if (Count > 0)
+        {
+            Count--;
+            InvokeAsync(StateHasChanged);
+        }
+    }
+}

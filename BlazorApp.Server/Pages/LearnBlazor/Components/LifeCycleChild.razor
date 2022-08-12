@@ -1,0 +1,24 @@
+﻿<MudPaper Elevation="3" Class="mt-4 px-4">
+    <MudText Typo="Typo.h5" Class="my-4">LifeCycleChild</MudText>
+    @foreach (var item in EventType)
+    {
+        <MudText Typo="Typo.body1" Class="my-4">@item</MudText>
+    }
+</MudPaper>
+
+@code {
+    [Parameter]
+    public int CountValue { get; set; }
+
+    List<string> EventType = new();
+
+    protected override void OnInitialized()
+    {
+        EventType.Add("Child - OnInitialized called");
+    }
+
+    protected override void OnParametersSet()
+    {
+        EventType.Add("Child - OnParametersSet called");
+    }
+}
