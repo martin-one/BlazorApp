@@ -1,6 +1,8 @@
+using BlazorApp.Business.Repository;
+using BlazorApp.Business.Repository.IRepository;
+using BlazorApp.DataAccess.Data;
 using BlazorApp.Server.Data;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+using Microsoft.EntityFrameworkCore;
 using MudBlazor.Services;
 
 namespace BlazorApp.Server;
@@ -13,10 +15,19 @@ public class Program
 
         // Add services to the container.
         builder.Services.AddMudServices();
-
         builder.Services.AddRazorPages();
         builder.Services.AddServerSideBlazor();
         builder.Services.AddSingleton<WeatherForecastService>();
+
+        //Add Repositories
+        builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+
+        //Add SQL Server
+        builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+        //Add AutoMapper
+        builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
         var app = builder.Build();
 
