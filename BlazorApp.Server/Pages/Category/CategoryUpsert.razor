@@ -1,0 +1,82 @@
+﻿@page "/category/create"
+@page "/category/edit/{id:int}"
+
+@inject ICategoryRepository _categoryRepository;
+@inject NavigationManager _navigation;
+
+<EditForm Model="Category" OnValidSubmit="UpsertCategory">
+    <DataAnnotationsValidator />
+    <MudGrid>
+        @if (IsLoading)
+        {
+            <MudItem xs="12">
+                <div class="d-flex justify-center">
+                    <MudProgressCircular Indeterminate Size="Size.Large" Color="Color.Primary" />
+                </div>
+            </MudItem>
+        }
+        else
+        {
+
+            <MudItem xs="12" md="6">
+                <MudPaper Class="pa-4">
+                    <MudText Typo="Typo.h5" Color="Color.Primary">@Title Category</MudText>
+                    <MudTextField Label="Name" For="@(() => Category.Name)" @bind-Value="Category.Name" />
+                    <div class="mt-4">
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" ButtonType="ButtonType.Submit">@Title</MudButton>
+                        <MudButton Variant="Variant.Filled" Color="Color.Default" Class="ml-4" Href="category">Back to Index</MudButton>
+                    </div>
+                </MudPaper>
+            </MudItem>
+            <MudItem xs="12" md="6">
+                <MudPaper Class="pa-4" Height="100%">
+                    <MudText Typo="Typo.h5">Validation Summary</MudText>
+                    <MudText Color="Color.Error">
+                        <ValidationSummary />
+                    </MudText>
+                </MudPaper>
+            </MudItem>
+        }
+    </MudGrid>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private CategoryDTO Category = new();
+    private string Title = "Create";
+    bool IsLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id == 0)
+        {
+            IsLoading = false;
+        }
+        else
+        {
+            Title = "Update";
+            await Task.Run(LoadCategory);
+        }
+    }
+
+    private void LoadCategory()
+    {
+        Category = _categoryRepository.GetById(Id);
+        IsLoading = false;
+    }
+
+    private void UpsertCategory()
+    {
+        if (Id == 0)
+        {
+            _categoryRepository.Create(Category);
+        }
+        else
+        {
+            _categoryRepository.Update(Category);
+        }
+        _navigation.NavigateTo("category");
+    }
+}

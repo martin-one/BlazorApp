@@ -11,9 +11,10 @@ namespace BlazorApp.Business.Repository
         private readonly ApplicationDbContext _db;
         private readonly IMapper _mapper;
 
-        public CategoryRepository(ApplicationDbContext db)
+        public CategoryRepository(ApplicationDbContext db, IMapper mapper)
         {
             _db = db;
+            _mapper = mapper;
         }
 
         public CategoryDTO GetById(int id)

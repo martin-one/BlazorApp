@@ -6,14 +6,14 @@
 @inject NavigationManager _NavigationManager
 
 <MudText Typo="Typo.h4" Color="Color.Primary" GutterBottom>Routing</MudText>
-<MudText Typo="Typo.body1" GutterBottom>
+<MudText GutterBottom>
     Parameter1: @Parameter1 <br />
     Parameter2: @Parameter2
 </MudText>
 <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mt-4 mr-4" @onclick="NavigateToRouting">Route Parameters</MudButton>
 
 <MudText Typo="Typo.h4" Color="Color.Primary" GutterBottom Class="mt-8">Query Params</MudText>
-<MudText Typo="Typo.body1" GutterBottom>
+<MudText GutterBottom>
     Param1: @Param1 <br />
     Param2: @Param2
 </MudText>
@@ -43,7 +43,7 @@
 
     private void NavigateToQueryParam()
     {
-        _NavigationManager.NavigateTo("routing?Param1=Blazor&Param2=App"); 
+        _NavigationManager.NavigateTo("routing?Param1=Blazor&Param2=App");
     }
 
     private void NavigateToRouting()

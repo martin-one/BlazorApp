@@ -3,14 +3,16 @@
 
 <MudText Typo="Typo.h3" GutterBottom>LifeCycle</MudText>
 <MudText Class="mb-4">Current count: @currentCount</MudText>
-<MudButton Color="Color.Primary" Variant="Variant.Filled" @onclick="IncrementCount">Click me</MudButton> <br /> <br />
+<MudButton Color="Color.Primary" Variant="Variant.Filled" @onclick="IncrementCount">Click me</MudButton>
+<br />
+<br />
 @Count <MudButton Color="Color.Primary" Variant="Variant.Filled" @onclick="StartCountDown">CountDown</MudButton>
 
 <LifeCycleChild CountValue="@currentCount" />
 
 @foreach (var item in EventType)
 {
-    <MudText Typo="Typo.body1" Class="my-4">@item</MudText>
+    <MudText Class="my-4">@item</MudText>
 }
 
 @code {

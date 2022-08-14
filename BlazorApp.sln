@@ -9,11 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorApp.Web", "BlazorApp.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorApp.Models", "BlazorApp.Models\BlazorApp.Models.csproj", "{F40E9255-739C-4A14-BDCC-7896A005DA6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp.Business", "BlazorApp.Business\BlazorApp.Business.csproj", "{A5450082-0FF9-4D9F-9A6A-0A5A58532946}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorApp.Business", "BlazorApp.Business\BlazorApp.Business.csproj", "{A5450082-0FF9-4D9F-9A6A-0A5A58532946}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp.Common", "BlazorApp.Common\BlazorApp.Common.csproj", "{0EC09889-D684-4342-A3D0-59A25E0FEE7C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorApp.Common", "BlazorApp.Common\BlazorApp.Common.csproj", "{0EC09889-D684-4342-A3D0-59A25E0FEE7C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp.DataAccess", "BlazorApp.DataAccess\BlazorApp.DataAccess.csproj", "{D59154E7-9C5E-4949-8900-D2C5A16A0712}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorApp.DataAccess", "BlazorApp.DataAccess\BlazorApp.DataAccess.csproj", "{D59154E7-9C5E-4949-8900-D2C5A16A0712}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

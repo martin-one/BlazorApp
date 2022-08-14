@@ -18,7 +18,7 @@
     <MudItem xs="12" md="6" Class="pa-8">
         <MudPaper Class="pa-4" Height="100%">
             <MudText Typo="Typo.h5" Color="Color.Primary" GutterBottom="true">Product Summary</MudText>
-            <MudText Typo="Typo.body1">
+            <MudText>
                 Name: @product.Name <br />
                 Active: @product.IsActive <br />
                 Price: @product.Price <br />
@@ -59,7 +59,7 @@
         <MudText Typo="Typo.h5" Color="Color.Primary" Class="mt-3">Products Summary</MudText>
         @foreach (var item in products)
         {
-            <MudText Typo="Typo.body1">
+            <MudText>
                 @item.Name - @item.Price - @(item.IsActive ? "Active" : "Inactive")
             </MudText>
         }
