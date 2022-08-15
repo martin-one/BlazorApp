@@ -5,9 +5,7 @@
 </MudText>
 
 @code {
-    [CascadingParameter(Name = "message")]
-    public string MessageForGrandChild { get; set; }
+    [CascadingParameter(Name = "message")] public string MessageForGrandChild { get; set; }
 
-    [CascadingParameter(Name = "luckyNumber")]
-    public string LuckyNumberForGrandChild { get; set; }
+    [CascadingParameter(Name = "luckyNumber")] public string LuckyNumberForGrandChild { get; set; }
 }

@@ -17,13 +17,12 @@
         }
         else
         {
-
             <MudItem xs="12" md="6">
                 <MudPaper Class="pa-4">
                     <MudText Typo="Typo.h5" Color="Color.Primary">@Title Category</MudText>
                     <MudTextField Label="Name" For="@(() => Category.Name)" @bind-Value="Category.Name" />
                     <div class="mt-4">
-                        <MudButton Variant="Variant.Filled" Color="Color.Primary" ButtonType="ButtonType.Submit">@Title</MudButton>
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" ButtonType="ButtonType.Submit" Disabled="@IsSentUpsert">@Title</MudButton>
                         <MudButton Variant="Variant.Filled" Color="Color.Default" Class="ml-4" Href="category">Back to Index</MudButton>
                     </div>
                 </MudPaper>
@@ -41,41 +40,39 @@
 </EditForm>
 
 @code {
-    [Parameter]
-    public int Id { get; set; }
+    [Parameter] public int Id { get; set; }
 
-    private CategoryDTO Category = new();
-    private string Title = "Create";
+    CategoryDTO Category = new();
+    string Title = "Create";
     bool IsLoading = true;
+    bool IsSentUpsert = false;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (Id == 0)
-        {
-            IsLoading = false;
-        }
-        else
+        if (firstRender && Id != 0)
         {
             Title = "Update";
-            await Task.Run(LoadCategory);
+            await LoadCategory();
         }
-    }
-
-    private void LoadCategory()
-    {
-        Category = _categoryRepository.GetById(Id);
         IsLoading = false;
+        StateHasChanged();
     }
 
-    private void UpsertCategory()
+    private async Task LoadCategory()
     {
+        Category = await _categoryRepository.GetById(Id);
+    }
+
+    private async void UpsertCategory()
+    {
+        IsSentUpsert = true;
         if (Id == 0)
         {
-            _categoryRepository.Create(Category);
+            await _categoryRepository.Create(Category);
         }
         else
         {
-            _categoryRepository.Update(Category);
+            await _categoryRepository.Update(Category);
         }
         _navigation.NavigateTo("category");
     }

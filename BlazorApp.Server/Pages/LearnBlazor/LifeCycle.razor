@@ -2,13 +2,13 @@
 @using System.Threading
 
 <MudText Typo="Typo.h3" GutterBottom>LifeCycle</MudText>
-<MudText Class="mb-4">Current count: @currentCount</MudText>
+<MudText Class="mb-4">Current count: @CurrentCount</MudText>
 <MudButton Color="Color.Primary" Variant="Variant.Filled" @onclick="IncrementCount">Click me</MudButton>
 <br />
 <br />
 @Count <MudButton Color="Color.Primary" Variant="Variant.Filled" @onclick="StartCountDown">CountDown</MudButton>
 
-<LifeCycleChild CountValue="@currentCount" />
+<LifeCycleChild CountValue="@CurrentCount" />
 
 @foreach (var item in EventType)
 {
@@ -16,13 +16,13 @@
 }
 
 @code {
-    private int currentCount = 0;
+    int CurrentCount = 0;
     List<string> EventType = new();
-    private int Count = 5;
+    int Count = 5;
 
     private void IncrementCount()
     {
-        currentCount++;
+        CurrentCount++;
     }
 
     protected override void OnInitialized()
@@ -48,9 +48,9 @@
     protected override void OnAfterRender(bool firstRender)
     {
         if (firstRender)
-            currentCount = 111;
+            CurrentCount = 111;
         else
-            currentCount = 999;
+            CurrentCount = 999;
 
         EventType.Add("OnAfterRender called");
     }

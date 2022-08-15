@@ -3,6 +3,7 @@ using BlazorApp.Business.Repository.IRepository;
 using BlazorApp.DataAccess;
 using BlazorApp.DataAccess.Data;
 using BlazorApp.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlazorApp.Business.Repository
 {
@@ -17,9 +18,9 @@ namespace BlazorApp.Business.Repository
             _mapper = mapper;
         }
 
-        public CategoryDTO GetById(int id)
+        public async Task<CategoryDTO> GetById(int id)
         {
-            var category = _db.Categories.FirstOrDefault(c => c.Id == id);
+            var category = await _db.Categories.FirstOrDefaultAsync(c => c.Id == id);
             if (category != null)
             {
                 return _mapper.Map<CategoryDTO>(category);
@@ -27,43 +28,43 @@ namespace BlazorApp.Business.Repository
             return new CategoryDTO();
         }
 
-        public IEnumerable<CategoryDTO> GetAll()
+        public async Task<IEnumerable<CategoryDTO>> GetAll()
         {
-            var categories = _db.Categories.ToList();
+            var categories = _db.Categories;
             return _mapper.Map<IEnumerable<CategoryDTO>>(categories);
         }
 
-        public CategoryDTO Create(CategoryDTO categoryDto)
+        public async Task<CategoryDTO> Create(CategoryDTO categoryDto)
         {
             var category = _mapper.Map<Category>(categoryDto);
             category.CreatedDate = DateTime.Now;
 
             _db.Categories.Add(category);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
 
             return _mapper.Map<CategoryDTO>(category);
         }
 
-        public CategoryDTO Update(CategoryDTO categoryDto)
+        public async Task<CategoryDTO> Update(CategoryDTO categoryDto)
         {
-            var category = _db.Categories.FirstOrDefault(c => c.Id == categoryDto.Id);
+            var category = await _db.Categories.FirstOrDefaultAsync(c => c.Id == categoryDto.Id);
             if (category != null)
             {
                 category.Name = categoryDto.Name;
                 _db.Categories.Update(category);
-                _db.SaveChanges();
+                await _db.SaveChangesAsync();
                 return _mapper.Map<CategoryDTO>(category);
             }
             return categoryDto;
         }
 
-        public int Delete(int id)
+        public async Task<int> Delete(int id)
         {
-            var category = _db.Categories.FirstOrDefault(c => c.Id == id);
+            var category = await _db.Categories.FirstOrDefaultAsync(c => c.Id == id);
             if (category != null)
             {
                 _db.Categories.Remove(category);
-                return _db.SaveChanges();
+                return await _db.SaveChangesAsync();
             }
             return 0;
         }

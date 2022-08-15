@@ -1,6 +1,8 @@
 ﻿@page "/category"
 
 @inject ICategoryRepository _categoryRepository;
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
 
 <MudGrid>
     <MudItem xs="12" md="6">
@@ -30,7 +32,7 @@
                             <th>@category.Name</th>
                             <th>
                                 <MudButton Variant="Variant.Filled" Color="Color.Primary" Href="@($"category/edit/{category.Id}")">Edit</MudButton>
-                                <MudButton Variant="Variant.Filled" Color="Color.Error" Href=>Delete</MudButton>
+                                <MudButton Variant="Variant.Filled" Color="Color.Error" Class="ml-2" @onclick="()=>OpenDeleteDialog(category)">Delete</MudButton>
                             </th>
                         </tr>
                     }
@@ -56,17 +58,40 @@
 </MudGrid>
 
 @code {
-    List<CategoryDTO> allCategories = new();
+    IEnumerable<CategoryDTO> allCategories = new List<CategoryDTO>();
+    CategoryDTO categoryToBeDeleted = new();
     bool IsLoading = true;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await Task.Run(LoadCategories);
+        if (firstRender)
+        {
+            await LoadCategories();
+        }
     }
 
-    private void LoadCategories()
+    private async Task LoadCategories()
     {
-        allCategories = _categoryRepository.GetAll().ToList();
+        allCategories = await _categoryRepository.GetAll();
         IsLoading = false;
+        StateHasChanged();
+    }
+
+    private async void DeleteCategory()
+    {
+        await _categoryRepository.Delete(categoryToBeDeleted.Id);
+        await LoadCategories();
+        Snackbar.Add("Category Deleted", Severity.Success);
+    }
+
+    private void OpenDeleteDialog(CategoryDTO category)
+    {
+        categoryToBeDeleted = category;
+
+        var parameters = new DialogParameters();
+        parameters.Add("ContentText", "Do you really want to delete this Category? This process cannot be undone.");
+        parameters.Add("DeleteCategory", new EventCallbackFactory().Create(this, DeleteCategory));
+
+        DialogService.Show<DeleteDialog>($"Delete Category: {category.Name}", parameters);
     }
 }

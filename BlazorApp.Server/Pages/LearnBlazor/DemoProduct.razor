@@ -13,9 +13,9 @@
 </MudGrid>
 
 @code {
-    private string SelectedProp = "";
-    private int FavoriteCount { get; set; } = 0;
-    private Demo_Product SelectedProduct = new();
+    string SelectedProp = "";
+    int FavoriteCount = 0;
+    Demo_Product SelectedProduct = new();
     List<Demo_Product> Products = new();
 
     private void FavoriteCountUpdate(bool isSelected)

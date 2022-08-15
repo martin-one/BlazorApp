@@ -1,7 +1,7 @@
 ﻿@inherits LayoutComponentBase
 
 <MudThemeProvider @bind-IsDarkMode="@_isDarkMode" Theme="new MudTheme()" />
-<MudDialogProvider />
+<MudDialogProvider CloseButton="true" CloseOnEscapeKey="true" MaxWidth="MaxWidth.Large" />
 <MudSnackbarProvider />
 
 <PageTitle>BlazorApp.Server</PageTitle>

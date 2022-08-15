@@ -1,0 +1,43 @@
+﻿@inject ISnackbar Snackbar
+
+<MudDialog>
+    <DialogContent>
+        <MudText>@ContentText</MudText>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Disabled="@IsLoading" Class="mr-2" OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Error" Disabled="@IsLoading" OnClick="Delete">
+            @if (IsLoading)
+            {
+                <MudProgressCircular Class="mx-n1" Size="Size.Small" Indeterminate="true" />
+                <MudText Typo="Typo.button" Class="ms-2">Processing...</MudText>
+            }
+            else
+            {
+                <MudText Typo="Typo.button">Delete</MudText>
+            }
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public string ContentText { get; set; }
+    [Parameter] public string DeleteAlert { get; set; }
+    [Parameter] public EventCallback DeleteCategory { get; set; }
+
+    bool IsLoading = false;
+
+    void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    async void Delete()
+    {
+        IsLoading = true;
+        await DeleteCategory.InvokeAsync(true);
+        MudDialog.Close(DialogResult.Ok(true));
+        IsLoading = false;
+    }
+}

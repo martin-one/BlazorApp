@@ -20,14 +20,9 @@
 </MudItem>
 
 @code {
-    [Parameter]
-    public Demo_Product Product { get; set; }
-
-    [Parameter]
-    public EventCallback<bool> FavoriteCountUpdate { get; set; }
-
-    [Parameter]
-    public EventCallback<Demo_Product> ChangeSelectedProduct { get; set; }
+    [Parameter] public Demo_Product Product { get; set; }
+    [Parameter] public EventCallback<bool> FavoriteCountUpdate { get; set; }
+    [Parameter] public EventCallback<Demo_Product> ChangeSelectedProduct { get; set; }
 
     private async Task OnChangeSelectedProduct(Demo_Product product)
     {
