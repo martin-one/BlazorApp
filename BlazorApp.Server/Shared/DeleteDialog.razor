@@ -1,6 +1,4 @@
-﻿@inject ISnackbar Snackbar
-
-<MudDialog>
+﻿<MudDialog>
     <DialogContent>
         <MudText>@ContentText</MudText>
     </DialogContent>
@@ -24,7 +22,7 @@
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public string ContentText { get; set; }
     [Parameter] public string DeleteAlert { get; set; }
-    [Parameter] public EventCallback DeleteCategory { get; set; }
+    [Parameter] public EventCallback DeleteAction { get; set; }
 
     bool IsLoading = false;
 
@@ -36,7 +34,7 @@
     async void Delete()
     {
         IsLoading = true;
-        await DeleteCategory.InvokeAsync(true);
+        await DeleteAction.InvokeAsync(true);
         MudDialog.Close(DialogResult.Ok(true));
         IsLoading = false;
     }

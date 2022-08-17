@@ -20,4 +20,8 @@
 		<ProjectReference Include="..\BlazorApp.DataAccess\BlazorApp.DataAccess.csproj" />
 		<ProjectReference Include="..\BlazorApp.Models\BlazorApp.Models.csproj" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="wwwroot\images\product\" />
+	</ItemGroup>
 </Project>

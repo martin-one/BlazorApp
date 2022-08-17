@@ -1,0 +1,146 @@
+﻿@page "/product/create"
+@page "/product/edit/{id:int}"
+
+@inject IProductRepository _productRepository;
+@inject ICategoryRepository _categoryRepository;
+@inject IFileUpload _fileUpload;
+@inject NavigationManager _navigation;
+@inject ISnackbar Snackbar
+
+<EditForm Model="Product" OnValidSubmit="UpsertProduct">
+    <DataAnnotationsValidator />
+    <MudGrid>
+        @if (IsLoading)
+        {
+            <MudItem xs="12">
+                <div class="d-flex justify-center">
+                    <MudProgressCircular Indeterminate Size="Size.Large" Color="Color.Primary" />
+                </div>
+            </MudItem>
+        }
+        else
+        {
+            <MudItem xs="12" md="6">
+                <MudPaper Class="pa-4">
+                    <MudText Typo="Typo.h5" Color="Color.Primary">@Title Product</MudText>
+                    <MudTextField Label="Name" For="@(() => Product.Name)" @bind-Value="Product.Name" />
+                    <MudTextField Label="Description" Lines="@(5)" For="@(() => Product.Description)" @bind-Value="Product.Description" />
+                    <MudTextField Label="Color" For="@(() => Product.Color)" @bind-Value="Product.Color" />
+                    <div class="d-flex justify-center mt-4">
+                        <MudCheckBox Color="Color.Primary" Label="Is Shop Favorites" @bind-Checked="@Product.ShopFavorites" />
+                        <MudCheckBox Color="Color.Primary" Label="Is Customer Favorites" @bind-Checked="@Product.CustomerFavorites" />
+                    </div>
+                    <MudSelect Label="Category" For="@(() => Product.CategoryId)" Class="mb-6" @bind-Value="@Product.CategoryId">
+                        <MudSelectItem Value="0" Disabled>Select Category...</MudSelectItem>
+                        @foreach (var category in Categories)
+                        {
+                            <MudSelectItem Value="@category.Id">@category.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                    <MudGrid>
+                        <MudItem xs="12" md="6">
+                            <div class="d-flex align-center justify-center" style="height:100%">
+                                <InputFile id="fileInput" OnChange="UploadFile" hidden accept=".jpg, .jpeg, .png" />
+                                <MudButton HtmlTag="label" Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Filled.CloudUpload" for="fileInput">
+                                    Upload Image
+                                </MudButton>
+                            </div>
+                        </MudItem>
+                        <MudItem xs="12" md="6">
+                            <div class="d-flex justify-center pa-4">
+                                <MudImage Style="width:100%" Src="@(Product.ImageUrl??DefaultImage)" Alt="@Product.Name" />
+                            </div>
+                        </MudItem>
+                    </MudGrid>
+                    <div class="mt-8">
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" ButtonType="ButtonType.Submit" Disabled="@IsSentUpsert">@Title</MudButton>
+                        <MudButton Variant="Variant.Filled" Color="Color.Default" Class="ml-4" Href="product">Back to Index</MudButton>
+                    </div>
+                </MudPaper>
+            </MudItem>
+            <MudItem xs="12" md="6">
+                <MudPaper Class="pa-4" Height="100%">
+                    <MudText Typo="Typo.h5">Validation Summary</MudText>
+                    <MudText Color="Color.Error">
+                        <ValidationSummary />
+                    </MudText>
+                </MudPaper>
+            </MudItem>
+        }
+    </MudGrid>
+</EditForm>
+
+@code {
+    [Parameter] public int Id { get; set; }
+
+    ProductDTO Product = new();
+    IEnumerable<CategoryDTO> Categories = new List<CategoryDTO>();
+    string Title = "Create";
+    bool IsLoading = true;
+    bool IsLoadingImage = false;
+    bool IsSentUpsert = false;
+    string DefaultImage = "/images/default.svg";
+    string? OldImageUrl;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadProduct();
+        }
+        IsLoading = false;
+        StateHasChanged();
+    }
+
+    private async Task LoadProduct()
+    {
+        Categories = await _categoryRepository.GetAll();
+        if (Id != 0)
+        {
+            Title = "Update";
+            Product = await _productRepository.GetById(Id);
+            OldImageUrl = Product.ImageUrl;
+        }
+    }
+
+    private async void UpsertProduct()
+    {
+        IsSentUpsert = true;
+        await Task.Delay(1); //Flush IsSentUpsert
+        if (Id == 0)
+        {
+            await _productRepository.Create(Product);
+            Snackbar.Add("Product Created Succesfully", Severity.Success);
+        }
+        else
+        {
+            if (OldImageUrl != Product.ImageUrl)
+            {
+                _fileUpload.DeleteFile(OldImageUrl!);
+            }
+            await _productRepository.Update(Product);
+            Snackbar.Add("Product Updated Succesfully", Severity.Success);
+        }
+        _navigation.NavigateTo("product");
+    }
+
+    private async Task UploadFile(InputFileChangeEventArgs e)
+    {
+        IsLoadingImage = true;
+        try
+        {
+            if (e.GetMultipleFiles().Count() == 1)
+            {
+                var image = e.GetMultipleFiles().FirstOrDefault();
+                FileInfo fileInfo = new(image!.Name);
+
+                Product.ImageUrl = await _fileUpload.UploadFile(image);
+                IsLoadingImage = false;
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add(ex.Message, Severity.Error);
+        }
+    }
+}

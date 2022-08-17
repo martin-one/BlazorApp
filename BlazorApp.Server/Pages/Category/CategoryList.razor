@@ -90,7 +90,7 @@
 
         var parameters = new DialogParameters();
         parameters.Add("ContentText", "Do you really want to delete this Category? This process cannot be undone.");
-        parameters.Add("DeleteCategory", new EventCallbackFactory().Create(this, DeleteCategory));
+        parameters.Add("DeleteAction", new EventCallbackFactory().Create(this, DeleteCategory));
 
         DialogService.Show<DeleteDialog>($"Delete Category: {category.Name}", parameters);
     }

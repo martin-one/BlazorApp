@@ -3,6 +3,7 @@
 
 @inject ICategoryRepository _categoryRepository;
 @inject NavigationManager _navigation;
+@inject ISnackbar Snackbar
 
 <EditForm Model="Category" OnValidSubmit="UpsertCategory">
     <DataAnnotationsValidator />
@@ -66,13 +67,16 @@
     private async void UpsertCategory()
     {
         IsSentUpsert = true;
+        await Task.Delay(1); //Flush IsSentUpsert
         if (Id == 0)
         {
             await _categoryRepository.Create(Category);
+            Snackbar.Add("Category Created Succesfully", Severity.Success);
         }
         else
         {
             await _categoryRepository.Update(Category);
+            Snackbar.Add("Product Updated Succesfully", Severity.Success);
         }
         _navigation.NavigateTo("category");
     }

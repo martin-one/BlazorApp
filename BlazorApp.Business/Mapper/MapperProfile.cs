@@ -9,6 +9,7 @@ namespace BlazorApp.Business.Mapper
         public MapperProfile()
         {
             CreateMap<Category, CategoryDTO>().ReverseMap();
+            CreateMap<Product, ProductDTO>().ReverseMap();
         }
     }
 }
