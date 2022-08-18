@@ -1,4 +1,4 @@
-﻿@page "/category"
+﻿@attribute [Route(Routes.Category.Main)]
 
 @inject ICategoryRepository _categoryRepository;
 @inject IDialogService DialogService
@@ -10,7 +10,7 @@
     </MudItem>
     <MudItem xs="12" md="6" Class="mb-8">
         <div class="d-flex justify-end pt-2">
-            <MudButton Variant="Variant.Filled" Color="Color.Primary" Href="category/create">Add New Category</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" Href="@Routes.Category.Create">Add New Category</MudButton>
         </div>
     </MudItem>
     <MudItem xs="12">
@@ -31,7 +31,7 @@
                             <th>@category.Id</th>
                             <th>@category.Name</th>
                             <th>
-                                <MudButton Variant="Variant.Filled" Color="Color.Primary" Href="@($"category/edit/{category.Id}")">Edit</MudButton>
+                                <MudButton Variant="Variant.Filled" Color="Color.Primary" Href="@Routes.Category.EditById(category.Id)">Edit</MudButton>
                                 <MudButton Variant="Variant.Filled" Color="Color.Error" Class="ml-2" @onclick="()=>OpenDeleteDialog(category)">Delete</MudButton>
                             </th>
                         </tr>

@@ -1,0 +1,19 @@
+﻿<MudNavMenu Class="mt-3">
+    <MudNavLink Href="@Routes.Home" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
+    <MudNavLink Href="@Routes.Counter" Icon="@Icons.Material.Filled.Add">Counter</MudNavLink>
+    <MudNavLink Href="@Routes.FetchData" Icon="@Icons.Material.Filled.List">Fetch Data</MudNavLink>
+    <MudNavLink Href="@Routes.Category.Main" Icon="@Icons.Filled.Category">Category</MudNavLink>
+    <MudNavLink Href="@Routes.Product.Main" Icon="@Icons.Filled.Sell">Products</MudNavLink>
+    <MudNavGroup Icon="@Icons.Filled.LibraryBooks" Title="LearnBlazor" Expanded="false">
+        <MudNavLink Href="@Routes.LearnBlazor.BindProperties" Icon="@Icons.Filled.Link">Bind Properties</MudNavLink>
+        <MudNavLink Href="@Routes.LearnBlazor.DemoProduct" Icon="@Icons.Filled.ShoppingCartCheckout">Demo Product</MudNavLink>
+        <MudNavLink Href="@Routes.LearnBlazor.ParentChildRelation" Icon="@Icons.Filled.ChildFriendly">Parent/Child Relation</MudNavLink>
+        <MudNavLink Href="@Routes.LearnBlazor.LearnRouting" Icon="@Icons.Filled.Route">Learn Routing</MudNavLink>
+        <MudNavLink Href="@Routes.LearnBlazor.BlazorJS" Icon="@Icons.Filled.Code">  Blazor JS</MudNavLink>
+        <MudNavLink Href="@Routes.LearnBlazor.LifeCycle" Icon="@Icons.Filled.MonitorHeart">Life Cycle</MudNavLink>
+    </MudNavGroup>
+</MudNavMenu>
+
+@code {
+
+}

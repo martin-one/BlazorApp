@@ -1,5 +1,5 @@
-﻿@page "/product/create"
-@page "/product/edit/{id:int}"
+﻿@attribute [Route(Routes.Product.Create)]
+@attribute [Route(Routes.Product.Edit)]
 
 @inject IProductRepository _productRepository;
 @inject ICategoryRepository _categoryRepository;
@@ -54,7 +54,7 @@
                     </MudGrid>
                     <div class="mt-8">
                         <MudButton Variant="Variant.Filled" Color="Color.Primary" ButtonType="ButtonType.Submit" Disabled="@IsSentUpsert">@Title</MudButton>
-                        <MudButton Variant="Variant.Filled" Color="Color.Default" Class="ml-4" Href="product">Back to Index</MudButton>
+                        <MudButton Variant="Variant.Filled" Color="Color.Default" Class="ml-4" Href="@Routes.Product.Main">Back to Index</MudButton>
                     </div>
                 </MudPaper>
             </MudItem>

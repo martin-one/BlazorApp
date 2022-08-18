@@ -1,5 +1,5 @@
-﻿@page "/category/create"
-@page "/category/edit/{id:int}"
+﻿@attribute [Route(Routes.Category.Create)]
+@attribute [Route(Routes.Category.Edit)]
 
 @inject ICategoryRepository _categoryRepository;
 @inject NavigationManager _navigation;
@@ -24,7 +24,7 @@
                     <MudTextField Label="Name" For="@(() => Category.Name)" @bind-Value="Category.Name" />
                     <div class="mt-4">
                         <MudButton Variant="Variant.Filled" Color="Color.Primary" ButtonType="ButtonType.Submit" Disabled="@IsSentUpsert">@Title</MudButton>
-                        <MudButton Variant="Variant.Filled" Color="Color.Default" Class="ml-4" Href="category">Back to Index</MudButton>
+                        <MudButton Variant="Variant.Filled" Color="Color.Default" Class="ml-4" Href="@Routes.Category.Main">Back to Index</MudButton>
                     </div>
                 </MudPaper>
             </MudItem>
